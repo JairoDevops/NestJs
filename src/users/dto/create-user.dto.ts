@@ -3,9 +3,8 @@ import {IsString, IsEmail, IsOptional,  ValidateNested} from 'class-validator';
 import { Type } from 'class-transformer';
 import { CreateDistributorDto } from '../../distributors/dto/create-distributor.dto';
 import { ApiProperty } from '@nestjs/swagger';
-import { Distributor } from '../../distributors/entities/distributor.entity';
-import { JoinColumn } from 'typeorm/browser/decorator/relations/JoinColumn.js';
-import { OneToOne } from 'typeorm/browser/decorator/relations/OneToOne.js';
+import { Column } from 'typeorm';
+
 
 export class CreateUserDto {
   @IsString()
@@ -20,10 +19,17 @@ export class CreateUserDto {
   @ApiProperty({ example: 'jairoalvarado2005@gmail.com', description: 'Email address of the user' })  
   email: string;
 
+  @IsString()
+  @ApiProperty({ example: 'securePassword123', description: 'Password for the user account' })
+  password: string;
+
   @IsOptional()
   @IsString()
   @ApiProperty({ example: '555-1234', description: 'Phone number of the user', required: false })
+ @Column({ nullable: true })
   phone?: string;
+
+
 
 
  

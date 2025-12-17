@@ -12,8 +12,10 @@ export class User {
     code: string;
     @Column()    
     email: string;
-    @Column()
-    phone: string;
+    @Column({ nullable: true })
+    phone: string
+    @Column()    
+    password: string;
 
       @OneToOne(() => Distributor, distributor => distributor.user, {
     cascade: true,
