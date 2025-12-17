@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import { ApiProperty } from "@nestjs/swagger";
-import { Transform } from "class-transformer/types/decorators/transform.decorator";
+import { Transform } from "class-transformer";
 import { IsEmail, IsString, MinLength } from "class-validator";
 
 
