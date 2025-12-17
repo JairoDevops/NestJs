@@ -16,6 +16,6 @@ export class AuthorizedChannel {
     code: string;
 
      @ManyToMany(() => Distributor, distributor => distributor.authotized)
-     distributors: Distributor[];
+     distributors: Distributor;
 
 }

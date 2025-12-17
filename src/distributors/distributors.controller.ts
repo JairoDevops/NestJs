@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe } from '@nestjs/common';
 import { DistributorsService } from './distributors.service';
 import { CreateDistributorDto } from './dto/create-distributor.dto';
 import { UpdateDistributorDto } from './dto/update-distributor.dto';
@@ -20,17 +20,17 @@ export class DistributorsController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.distributorsService.findOne(+id);
+  findOne(@Param('id' , ParseIntPipe) id: number) {
+    return this.distributorsService.findOne(id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateDistributorDto: UpdateDistributorDto) {
-    return this.distributorsService.update(+id, updateDistributorDto);
+  update(@Param('id' , ParseIntPipe) id: number, @Body() updateDistributorDto: UpdateDistributorDto) {
+    return this.distributorsService.update(id, updateDistributorDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.distributorsService.remove(+id);
+  remove(@Param('id' , ParseIntPipe) id: number) {
+    return this.distributorsService.remove(id);
   }
 }

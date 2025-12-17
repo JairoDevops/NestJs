@@ -1,4 +1,5 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+/* eslint-disable prettier/prettier */
+import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe } from '@nestjs/common';
 import { AuthorizedChannelsService } from './authorized_channels.service';
 import { CreateAuthorizedChannelDto } from './dto/create-authorized_channel.dto';
 import { UpdateAuthorizedChannelDto } from './dto/update-authorized_channel.dto';
@@ -18,17 +19,17 @@ export class AuthorizedChannelsController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.authorizedChannelsService.findOne(+id);
+  findOne(@Param('id' , ParseIntPipe) id: number) {
+    return this.authorizedChannelsService.findOne(id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateAuthorizedChannelDto: UpdateAuthorizedChannelDto) {
-    return this.authorizedChannelsService.update(+id, updateAuthorizedChannelDto);
+  update(@Param('id' , ParseIntPipe) id: number, @Body() updateAuthorizedChannelDto: UpdateAuthorizedChannelDto) {
+    return this.authorizedChannelsService.update(id, updateAuthorizedChannelDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.authorizedChannelsService.remove(+id);
+  remove(@Param('id' , ParseIntPipe) id: number) {
+    return this.authorizedChannelsService.remove(id);
   }
 }

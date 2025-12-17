@@ -1,4 +1,5 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+/* eslint-disable prettier/prettier */
+import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe } from '@nestjs/common';
 import { ProcessScheduleService } from './process_schedule.service';
 import { CreateProcessScheduleDto } from './dto/create-process_schedule.dto';
 import { UpdateProcessScheduleDto } from './dto/update-process_schedule.dto';
@@ -18,17 +19,17 @@ export class ProcessScheduleController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.processScheduleService.findOne(+id);
+  findOne(@Param('id', ParseIntPipe) id: number) {
+    return this.processScheduleService.findOne(id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateProcessScheduleDto: UpdateProcessScheduleDto) {
-    return this.processScheduleService.update(+id, updateProcessScheduleDto);
+  update(@Param('id', ParseIntPipe) id: number, @Body() updateProcessScheduleDto: UpdateProcessScheduleDto) {
+    return this.processScheduleService.update(id, updateProcessScheduleDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.processScheduleService.remove(+id);
+  remove(@Param('id', ParseIntPipe) id: number) {
+    return this.processScheduleService.remove(id);
   }
 }

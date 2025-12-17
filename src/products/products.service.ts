@@ -40,7 +40,7 @@ export class ProductsService {
     return this.productRepo.findOneBy({id});
   }
 
- async update(id: number, dto: UpdateProductDto) {
+async update(id: number, dto: UpdateProductDto) {
   const product = await this.productRepo.findOneBy({ id });
 
   if (!product) {
@@ -55,12 +55,14 @@ export class ProductsService {
     if (!distributor) {
       throw new NotFoundException('Distributor not found');
     }
-
     product.distributor = distributor;
   }
 
+  Object.assign(product, dto);
+
   return this.productRepo.save(product);
 }
+
 
 
   remove(id: number) {

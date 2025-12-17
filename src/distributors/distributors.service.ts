@@ -37,9 +37,30 @@ export class DistributorsService {
     return this.distributorRepo.findOneBy({id});
   }
 
-  update(id: number, updateDistributorDto: UpdateDistributorDto) {
-    return `This action updates a #${id} distributor`;
+ async update(id: number, updateDistributorDto: UpdateDistributorDto) {
+  const distributor = await this.distributorRepo.preload({
+    id,
+    ...updateDistributorDto,
+  });
+
+  if (!distributor) {
+    throw new NotFoundException('Distribuidor no existe');
   }
+
+  if (updateDistributorDto.userId) {
+    const user = await this.userRepo.findOneBy({
+      id: updateDistributorDto.userId,
+    });
+
+    if (!user) {
+      throw new NotFoundException('Usuario no existe');
+    }
+
+    distributor.user = user;
+  }
+
+  return this.distributorRepo.save(distributor);
+}
 
   remove(id: number) {
     return this.distributorRepo.delete(id); 

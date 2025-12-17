@@ -1,19 +1,46 @@
-import { Injectable } from '@nestjs/common';
+/* eslint-disable prettier/prettier */
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateAuthorizedChannelDto } from './dto/create-authorized_channel.dto';
 import { UpdateAuthorizedChannelDto } from './dto/update-authorized_channel.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { AuthorizedChannel } from './entities/authorized_channel.entity';
+import { Repository } from 'typeorm';
+import { Distributor } from '../distributors/entities/distributor.entity';
 
 @Injectable()
 export class AuthorizedChannelsService {
-  create(createAuthorizedChannelDto: CreateAuthorizedChannelDto) {
-    return 'This action adds a new authorizedChannel';
-  }
+// eslint-disable-next-line prettier/prettier
+
+  constructor(
+    @InjectRepository(AuthorizedChannel) 
+    private authorizedChannelRepository: Repository<AuthorizedChannel>,
+
+    @InjectRepository(Distributor)
+    private distributorRepository: Repository<Distributor>,
+
+  ) {}
+
+
+ async create(createAuthorizedChannelDto: CreateAuthorizedChannelDto) {
+
+    const distributors = await this.distributorRepository.findOneBy({id: createAuthorizedChannelDto.distributorId});
+      if (!distributors) {
+           throw new NotFoundException('Distribuidor no existe');
+      }
+
+      const authorizedChannel = this.authorizedChannelRepository.create({...createAuthorizedChannelDto, distributors});
+      return this.authorizedChannelRepository.save(authorizedChannel);
+
+ }
+
+  
 
   findAll() {
-    return `This action returns all authorizedChannels`;
+    return this.authorizedChannelRepository.find();
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} authorizedChannel`;
+    return this.authorizedChannelRepository.findOneBy({id});
   }
 
   update(id: number, updateAuthorizedChannelDto: UpdateAuthorizedChannelDto) {
@@ -21,6 +48,6 @@ export class AuthorizedChannelsService {
   }
 
   remove(id: number) {
-    return `This action removes a #${id} authorizedChannel`;
+    return this.authorizedChannelRepository.delete(id)
   }
 }
