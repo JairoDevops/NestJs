@@ -12,11 +12,11 @@ import { AuthorizedChannel } from './authorized_channels/entities/authorized_cha
     imports: [
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: 'localhost',
-      port: 3307,
-      username: 'user_crud',
+      host: 'mysql_db',   
+      port: 3306,         
+      username: 'root',
       password: 'root',
-      database: 'db_crud',
+      database: 'test',
       entities: [Distributor, Product, User, ProcessSchedule, AuthorizedChannel],
       synchronize: true,
     }),

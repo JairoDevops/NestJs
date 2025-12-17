@@ -2,3 +2,4 @@ node_modules
 mysql
 .git
 .gitignore
+package-lock.json
